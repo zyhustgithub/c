@@ -1,48 +1,58 @@
-#ifndef __INT_SPLIT_C__
-#define __INT_SPLIT_C__
-
+#ifndef __FAST_SORT_C__
+#define __FAST_SORT_C__
+ 
 #include <stdio.h>
-#include <string.h> //memset
-
-#define MAXNUM 1024
-
-int gNode[MAXNUM];
-int gNum;
-
-void int_split(int sum, int len, int limit)
+#include <stdlib.h>
+ 
+int *fast_sort(int *arr, int arr_size)
 {
-    if (sum == gNum) {
-        printf("%d=%d", gNum, gNode[1]);
-        for (int i = 2; i < len; i++) {
-            printf("+%d", gNode[i]);
-        }
-        printf("\n");
-        return;
+    int low, high;
+    int part_val;
+ 
+    if (arr_size < 2) {
+        return arr;
     }
-
-    for (int i = limit; i <= gNum; i++) {
-        if (sum + i > gNum) {
-            break;
+ 
+    low = 0;
+    high = arr_size - 1;
+    part_val = arr[low];
+    while (low < high) {
+        while (arr[high] >= part_val && low != high) {
+            high--;
         }
-
-        gNode[len] = i;
-        int_split(sum + i, len + 1, i);
-        gNode[len] = 0;
+        arr[low] = arr[high];
+        while (arr[low] < part_val && low != high) {
+            low++;
+        }
+        arr[high] = arr[low];
     }
-
+    arr[low] = part_val;
+    fast_sort(arr, low);
+    fast_sort(&arr[low + 1], arr_size - low - 1);
+    return arr;
 }
-
+ 
 int main(int argc, char *argv[])
 {
-    memset(gNode, 0, sizeof(int)*MAXNUM);
-    while (scanf("%d", &gNum) != EOF) {
-        if (gNum > 1024 || gNum & 0x80000000) {
-            printf("Error: too big, should less than 1024...\n");
-            continue;
-        }
-        int_split(0, 1, 1);
+    int *buf = NULL;
+    int buf_size = 0;
+    int i = 0;
+ 
+    scanf("%d", &buf_size);
+    if ((buf = (int *)calloc(sizeof(int), buf_size)) == NULL) {
+        printf("Error in calloc");
+        return 1;
     }
+    for (i = 0; i < buf_size; i++) {
+        scanf("%d", buf + i);
+    }
+ 
+    fast_sort(buf, buf_size);
+    for (int i = 0; i < buf_size; i++) {
+        printf("%d ", buf[i]);
+    }
+    free(buf);
     return 0;
 }
-
+ 
 #endif
