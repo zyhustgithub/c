@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2021-2021 RTFSC All rights reserved.
+ * Author:zengyong
+ * Date:2021-8-2
+ * Description:跳表算法测试
+ */
+
 #include "SkipList.h"
 
 // test

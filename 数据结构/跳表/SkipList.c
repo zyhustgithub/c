@@ -7,6 +7,17 @@
 
 #include "SkipList.h"
 
+int NewLevel()
+{
+    int level = 0;
+    while (rand() % 2) {
+        ++level;
+    }
+
+    level = (level < MAXLEVEL) ? level : MAXLEVEL;
+    return level;
+}
+
 Status InitList()
 {
     if ((list.head = malloc(sizeof(NodeType))) == 0) {
@@ -42,17 +53,6 @@ void PrintSList()
     }
 
     putchar('\n');
-}
-
-int NewLevel()
-{
-    int level = 0;
-    while (rand() % 2) {
-        ++level;
-    }
-
-    level = (level < MAXLEVEL) ? level : MAXLEVEL;
-    return level;
 }
 
 Status Insert(keyType key, ValType* val)
